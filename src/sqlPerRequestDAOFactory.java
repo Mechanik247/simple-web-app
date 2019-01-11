@@ -1,5 +1,9 @@
 public class sqlPerRequestDAOFactory extends DAOFactory
 {
+    protected sqlPerRequestDAOFactory()
+    {
+        super();
+    }
 
     @Override
     public NotesDAO getNotesDAO() {
