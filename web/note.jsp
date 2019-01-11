@@ -13,15 +13,9 @@
 </head>
 <body>
 <section>
-	<jsp:useBean id="listNotes" type="java.util.ArrayList" scope="session" />
     <h3>Notes info</h3>
-		<c:forEach items="${listNotes}" var="note">
-			<tr>      
-				<td>${note.title}</td>
-				<td>${note.text}</td>
-			</tr>
-		</c:forEach>
-        <td><a href="notes?action=update">Update</a></td>
+    <tr>
+        <td>ID: ${id} | Name: ${noteName} | Text: ${noteText}</td>
     </tr>
 </section>
 </body>

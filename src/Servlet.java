@@ -27,27 +27,26 @@ import javax.sql.DataSource;
  * @author www.codejava.net
  */
 public class Servlet extends HttpServlet {
-    private Note note;
-    private User owner;
-    private LocalDate cDate;
 
     public void init(ServletConfig config) throws ServletException {
         super.init();
-        cDate = LocalDate.now();
-        owner = new User("Name", "Password", "EMail", 1);
-        note = new Note("Name", "Text",cDate ,owner);
 
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //System.out.println("Enter doGet");
+        Note note;
 
-
-        String action = req.getParameter("action");
-        req.setAttribute("noteName", note.getTitle());
-        req.setAttribute("noteText", note.getText());
-
-        req.getRequestDispatcher("/notes.jsp").forward(req, resp);
+        String id = req.getParameter("id");
+        req.setAttribute("id", id);
+        /*if(id != null && !id.equals("")) {
+            NotesDAOImpl dao = new NotesDAOImpl();
+            note = dao.findByID(Integer.parseInt(id));
+            req.setAttribute("id", note.getId());
+            req.setAttribute("noteName", note.getTitle());
+            req.setAttribute("noteText", note.getText());
+        }*/
+            req.getRequestDispatcher("/note.jsp").forward(req, resp);
     }
         /*resp.setContentType("text/html");
         PrintWriter pw = resp.getWriter();

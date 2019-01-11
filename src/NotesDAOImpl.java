@@ -5,6 +5,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 
@@ -79,26 +80,26 @@ public class NotesDAOImpl implements NotesDAO {
 
     @Override
     public Note findByID(int id) {
-        /*String query = "SELECT * FROM `departments` WHERE id = ?";
-        LinkedList<Employee> employees = new LinkedList<>();
-        Department department = null;
+        String query = "SELECT id, title, text FROM notes WHERE id = ?";
+
         try {
             Connection con = dataSource.getConnection();
             PreparedStatement statement = con.prepareStatement(query);
+
             statement.setInt(1, id);
+
             ResultSet rs = statement.executeQuery();
             rs.next();
-            EmployeesDAOplus ds = new EmployeesDAOimpl();
-            department = new Department(rs.getString("name"), rs.getString("description"),
-                    ds.findByDepID(id));
-            con.close();
-            for (Employee employee : department.getEmployees()) {
-                employee.setDepartment(department);
-            }
 
+            Note note = new Note();
+            note.setId(Integer.parseInt(rs.getString("id")));
+            note.setTitle(rs.getString("title"));
+            note.setText(rs.getString("text"));
+            con.close();
+            return note;
         } catch (SQLException e) {
             e.printStackTrace();
-        }*/
+        }
         return null;
     }
 
