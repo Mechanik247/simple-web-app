@@ -38,14 +38,13 @@ public class Servlet extends HttpServlet {
         Note note;
 
         String id = req.getParameter("id");
-        req.setAttribute("id", id);
-        /*if(id != null && !id.equals("")) {
+        if(id != null && !id.equals("")) {
             NotesDAOImpl dao = new NotesDAOImpl();
             note = dao.findByID(Integer.parseInt(id));
             req.setAttribute("id", note.getId());
             req.setAttribute("noteName", note.getTitle());
             req.setAttribute("noteText", note.getText());
-        }*/
+        }
             req.getRequestDispatcher("/note.jsp").forward(req, resp);
     }
         /*resp.setContentType("text/html");

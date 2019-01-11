@@ -1,5 +1,6 @@
 import com.mysql.cj.jdbc.MysqlDataSource;
 
+import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -10,8 +11,8 @@ import java.sql.SQLException;
 import java.util.Collection;
 
 public class NotesDAOImpl implements NotesDAO {
-    private static final String JNDI_NAME = "jdbc/notes";
-    private MysqlDataSource dataSource;
+    private static final String JNDI_NAME = "java:comp/env/jdbc/notes";
+    private DataSource dataSource;
 
     public NotesDAOImpl()
     {
@@ -22,19 +23,23 @@ public class NotesDAOImpl implements NotesDAO {
             e.printStackTrace();
         }
         try {
-            DataSource ds = (DataSource) ctx.lookup(JNDI_NAME);
-            dataSource = ds.unwrap(MysqlDataSource.class);
+            dataSource = (DataSource) ctx.lookup(JNDI_NAME);
 
         } catch (NamingException e) {
             e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-        try {
-            dataSource.setAutoReconnect(true);
-        } catch (SQLException e) {
+
+
+        /*try {
+
+            Context initContext = new InitialContext();
+            Context envContext  = (Context)initContext.lookup("java:/comp/env");
+            DataSource ds = (DataSource)envContext.lookup("jdbc/notes");
+            dataSource = ds.unwrap(MysqlDataSource.class);
+
+        } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
