@@ -5,7 +5,7 @@
 </head>
 <body>
 <ul>
-    <li><a href="getnotes">Notes</a></li>
+    <li><a href="notes">Notes</a></li>
 </ul>
 </body>
 </html>

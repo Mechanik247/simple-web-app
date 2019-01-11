@@ -42,19 +42,13 @@ public class Servlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //System.out.println("Enter doGet");
 
-        req.getRequestDispatcher("/notes.jsp").forward(req, resp);
 
         String action = req.getParameter("action");
-        req.setAttribute("note", note);
-        switch (action == null ? "info" : action) {
-            case "update":
-                req.getRequestDispatcher("/update.jsp").forward(req, resp);
-                break;
-            case "info":
-            default:
-                req.getRequestDispatcher("/notes.jsp").forward(req, resp);
-                break;
-        }
+        req.setAttribute("noteName", note.getTitle());
+        req.setAttribute("noteText", note.getText());
+
+        req.getRequestDispatcher("/notes.jsp").forward(req, resp);
+    }
         /*resp.setContentType("text/html");
         PrintWriter pw = resp.getWriter();
         pw.println("<html>");
@@ -153,5 +147,3 @@ public class Servlet extends HttpServlet {
         pw.println("for example");
         pw.println("</textarea>");*/
         }
-
-}
