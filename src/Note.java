@@ -5,20 +5,20 @@ public class Note
 {
     private int id;
     private String title;
-    private StringBuilder text;
+    private String text;
     private LocalDate creationDate;
     private User owner;
     private Map<User, Rights> privileges;
 
     public Note(){}
-    public Note(String title, StringBuilder text, LocalDate cDate, User owner)
+    public Note(String title, String text, LocalDate cDate, User owner)
     {
         this.title = title;
         this.text = text;
         this.creationDate = cDate;
         this.owner = owner;
     }
-    public Note(String title, StringBuilder text, LocalDate cDate, User owner, Map<User, Rights> privileges, int id)
+    public Note(String title, String text, LocalDate cDate, User owner, Map<User, Rights> privileges, int id)
     {
         this.title = title;
         this.text = text;
@@ -36,11 +36,11 @@ public class Note
         return title;
     }
 
-    public void setText(StringBuilder text) {
+    public void setText(String text) {
         this.text = text;
     }
 
-    public StringBuilder getText() {
+    public String getText() {
         return text;
     }
 
