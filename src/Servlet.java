@@ -37,14 +37,19 @@ public class Servlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //System.out.println("Enter doGet");
         Note note;
+        User user;
         Collection<Note> notes;
-        NotesDAOImpl dao = new NotesDAOImpl();
+        Collection<User> users;
+        NotesDAOImpl notesDAO = new NotesDAOImpl();
+        UsersDAOImpl usersDAO = new UsersDAOImpl();
 
         String insert = req.getParameter("insert");
         String delete = req.getParameter("delete");
         String update = req.getParameter("update");
         String findByID = req.getParameter("findByID");
         String findByTitle = req.getParameter("findByTitle");
+        String findByName = req.getParameter("findByName");
+        String findByEMail = req.getParameter("findByEMail");
         String findByTextFragment = req.getParameter("findByTextFragment");
         String saveOrUpdate = req.getParameter("saveOrUpdate");
 
@@ -55,79 +60,168 @@ public class Servlet extends HttpServlet {
         String fragment = req.getParameter("fragment");
         String author_id = req.getParameter("author_id");
 
+        String name = req.getParameter("name");
+        String pass = req.getParameter("pass");
+        String eMail = req.getParameter("eMail");
+
 
         if (insert != null) {
-            note = new Note();
-            note.setId(Integer.parseInt(id));
-            note.setTitle(title);
-            note.setCreationDate(LocalDate.parse(cDate));
-            note.setText(text);
-            User owner = new User();
-            owner.setId(Integer.parseInt(author_id));
-            note.setOwner(owner);
-            if (dao.insert(note) == 1) {
-                req.setAttribute("inf", "Запись добавлена.");
-            } else {
-                req.setAttribute("inf", "Ошибка добавления!");
+            if(insert.equals("note")) {
+                note = new Note();
+                note.setId(Integer.parseInt(id));
+                note.setTitle(title);
+                note.setCreationDate(LocalDate.parse(cDate));
+                note.setText(text);
+                User owner = new User();
+                owner.setId(Integer.parseInt(author_id));
+                note.setOwner(owner);
+                if (notesDAO.insert(note) == 1) {
+                    req.setAttribute("inf", "Запись добавлена.");
+                } else {
+                    req.setAttribute("inf", "Ошибка добавления!");
+                }
             }
-        }
-        if (update != null) {
-            note = new Note();
-            note.setId(Integer.parseInt(id));
-            note.setTitle(title);
-            note.setCreationDate(LocalDate.parse(cDate));
-            note.setText(text);
-            User owner = new User();
-            owner.setId(Integer.parseInt(author_id));
-            note.setOwner(owner);
-            if (dao.update(note)) {
-                req.setAttribute("inf", "Запись обновлена.");
-            } else {
-                req.setAttribute("inf", "Ошибка обновления!");
+            else if(insert.equals("user")) {
+                user = new User();
+                user.setId(Integer.parseInt(id));
+                user.setName(name);
+                user.setEncrypted_password(pass);
+                user.setEMail(eMail);
+                if (usersDAO.insert(user) == 1) {
+                    req.setAttribute("inf", "Запись добавлена.");
+                } else {
+                    req.setAttribute("inf", "Ошибка добавления!");
+                }
             }
+            req.getRequestDispatcher("/inf.jsp").forward(req, resp);
         }
-        if (saveOrUpdate != null) {
-            note = new Note();
-            note.setId(Integer.parseInt(id));
-            note.setTitle(title);
-            note.setCreationDate(LocalDate.parse(cDate));
-            note.setText(text);
-            User owner = new User();
-            owner.setId(Integer.parseInt(author_id));
-            note.setOwner(owner);
-            if (dao.saveOrUpdate(note)) {
-                req.setAttribute("inf", "Запись сохранена.");
-            } else {
-                req.setAttribute("inf", "Ошибка сохранения!");
+        else if (update != null) {
+            if(update.equals("note")) {
+                note = new Note();
+                note.setId(Integer.parseInt(id));
+                note.setTitle(title);
+                note.setCreationDate(LocalDate.parse(cDate));
+                note.setText(text);
+                User owner = new User();
+                owner.setId(Integer.parseInt(author_id));
+                note.setOwner(owner);
+                if (notesDAO.update(note)) {
+                    req.setAttribute("inf", "Запись обновлена.");
+                } else {
+                    req.setAttribute("inf", "Ошибка обновления!");
+                }
             }
-        }
-        if (delete != null) {
-            if (dao.delete(Integer.parseInt(id))) {
-                req.setAttribute("inf", "Запись удалена.");
-            } else {
-                req.setAttribute("inf", "Ошибка удаления!");
+            else if(update.equals("user"))
+            {
+                user = new User();
+                user.setId(Integer.parseInt(id));
+                user.setName(name);
+                user.setEncrypted_password(pass);
+                user.setEMail(eMail);
+                if (usersDAO.update(user)) {
+                    req.setAttribute("inf", "Запись обновлена.");
+                } else {
+                    req.setAttribute("inf", "Ошибка обновления!");
+                }
             }
+            req.getRequestDispatcher("/inf.jsp").forward(req, resp);
         }
-        if (findByID != null) {
+        else if (saveOrUpdate != null) {
+            if(saveOrUpdate.equals("note")) {
+                note = new Note();
+                note.setId(Integer.parseInt(id));
+                note.setTitle(title);
+                note.setCreationDate(LocalDate.parse(cDate));
+                note.setText(text);
+                User owner = new User();
+                owner.setId(Integer.parseInt(author_id));
+                note.setOwner(owner);
+                if (notesDAO.saveOrUpdate(note)) {
+                    req.setAttribute("inf", "Запись сохранена.");
+                } else {
+                    req.setAttribute("inf", "Ошибка сохранения!");
+                }
+            }
+            else if(saveOrUpdate.equals("user"))
+            {
+                user = new User();
+                user.setId(Integer.parseInt(id));
+                user.setName(name);
+                user.setEncrypted_password(pass);
+                user.setEMail(eMail);
+                if (usersDAO.saveOrUpdate(user)) {
+                    req.setAttribute("inf", "Запись сохранена.");
+                } else {
+                    req.setAttribute("inf", "Ошибка сохранения!");
+                }
+            }
+            req.getRequestDispatcher("/inf.jsp").forward(req, resp);
+        }
+        else if (delete != null) {
+            if(delete.equals("note")) {
+                if (notesDAO.delete(Integer.parseInt(id))) {
+                    req.setAttribute("inf", "Запись удалена.");
+                } else {
+                    req.setAttribute("inf", "Ошибка удаления!");
+                }
+            }
+            else if(delete.equals("user"))
+            {
+                if (usersDAO.delete(Integer.parseInt(id))) {
+                    req.setAttribute("inf", "Запись удалена.");
+                } else {
+                    req.setAttribute("inf", "Ошибка удаления!");
+                }
+            }
+            req.getRequestDispatcher("/inf.jsp").forward(req, resp);
+        }
+        else if (findByID != null) {
+            if(findByID.equals("note")) {
+                note = notesDAO.findByID(Integer.parseInt(id));
+                req.setAttribute("id", note.getId());
+                req.setAttribute("title", note.getTitle());
+                req.setAttribute("text", note.getText());
+                req.setAttribute("cDate", note.getCreationDate());
+                req.setAttribute("author_id", note.getOwner().getId());
 
-            note = dao.findByID(Integer.parseInt(id));
-            req.setAttribute("id", note.getId());
-            req.setAttribute("noteName", note.getTitle());
-            req.setAttribute("noteText", note.getText());
-        }
-        if (findByTitle != null) {
+                req.getRequestDispatcher("/note.jsp").forward(req, resp);
+            }
+            else if(findByID.equals("user"))
+            {
+                user = usersDAO.findByID(Integer.parseInt(id));
+                req.setAttribute("id", user.getId());
+                req.setAttribute("name", user.getName());
+                req.setAttribute("pass", user.getEncrypted_password());
+                req.setAttribute("eMail", user.getEMail());
 
-            notes = dao.findByTitle(title);
+                req.getRequestDispatcher("/user.jsp").forward(req, resp);
+            }
+        }
+        else if (findByTitle != null) {
+
+            notes = notesDAO.findByTitle(title);
             req.setAttribute("notes", notes);
             req.getRequestDispatcher("/notes.jsp").forward(req, resp);
         }
-        if (findByTextFragment != null) {
+        else if (findByName != null) {
 
-            notes = dao.findByTextFragment(fragment);
+            users = usersDAO.findByName(name);
+            req.setAttribute("users", users);
+            req.getRequestDispatcher("/users.jsp").forward(req, resp);
+        }
+        else if (findByEMail != null) {
+
+            users = usersDAO.findByEMail(eMail);
+            req.setAttribute("users", users);
+            req.getRequestDispatcher("/users.jsp").forward(req, resp);
+        }
+        else if (findByTextFragment != null) {
+
+            notes = notesDAO.findByTextFragment(fragment);
             req.setAttribute("notes", notes);
             req.getRequestDispatcher("/notes.jsp").forward(req, resp);
         }
-        req.getRequestDispatcher("/note.jsp").forward(req, resp);
+
     }
 
 }

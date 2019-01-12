@@ -9,13 +9,13 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
-    <title>Notes</title>
+    <title>Information</title>
 </head>
 	<body>
 		<section>
-			<h3>Notes info</h3>
+			<h3>Information</h3>
 			<tr>
-				<td>ID: ${id} | Title: ${title} | Text: ${text} | Creation_date: ${cDate} | Author_ID: ${author_id}</td>
+				<td>Information: ${inf}</td>
 			</tr>
 		</section>
 	</body>

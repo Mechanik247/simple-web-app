@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -70,7 +71,7 @@ public class NotesDAOImpl implements NotesDAO {
 
     @Override
     public Note findByID(int id) {
-        String query = "SELECT id, title, text FROM notes WHERE id = ?";
+        String query = "SELECT `id`, `title`, `text`, `creation_date`, `author_id` FROM `notes` WHERE `id` = ?";
 
         try {
             Connection con = dataSource.getConnection();
@@ -85,6 +86,11 @@ public class NotesDAOImpl implements NotesDAO {
             note.setId(Integer.parseInt(rs.getString("id")));
             note.setTitle(rs.getString("title"));
             note.setText(rs.getString("text"));
+
+            note.setCreationDate(LocalDate.parse(rs.getString("creation_date")));
+            User owner = new User();
+            owner.setId(Integer.parseInt(rs.getString("author_id")));
+            note.setOwner(owner);
             con.close();
             return note;
         } catch (SQLException e) {
@@ -138,17 +144,17 @@ public class NotesDAOImpl implements NotesDAO {
     @Override
     public Collection<Note> findByTitle(String title) {
         String query = "SELECT id FROM `notes` WHERE notes.title = ?";
-        LinkedList<Note> found = new LinkedList<>();
+        LinkedList<Note> foundedNotes = new LinkedList<>();
         try {
             Connection con = dataSource.getConnection();
             PreparedStatement statement = con.prepareStatement(query);
             statement.setString(1, title);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                found.add(findByID(rs.getInt("id")));
+                foundedNotes.add(findByID(rs.getInt("id")));
             }
             con.close();
-            return found;
+            return foundedNotes;
         } catch (SQLException e) {
             e.printStackTrace();
         }
