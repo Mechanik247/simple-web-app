@@ -40,6 +40,7 @@ public class Servlet extends HttpServlet {
 
         String insert = req.getParameter("insert");
         String delete = req.getParameter("delete");
+        String update = req.getParameter("update");
         String findByID = req.getParameter("findByID");
 
         String id = req.getParameter("id");
@@ -65,6 +66,24 @@ public class Servlet extends HttpServlet {
             else
             {
                 req.setAttribute("inf", "Ошибка добавления!");
+            }
+        }
+        if(update != null)
+        {
+            note = new Note();
+            note.setId(Integer.parseInt(id));
+            note.setTitle(title);
+            note.setCreationDate(LocalDate.parse(cDate));
+            note.setText(text);
+            User owner = new User();
+            owner.setId(Integer.parseInt(author_id));
+            note.setOwner(owner);
+            if(dao.update(note)) {
+                req.setAttribute("inf", "Запись обновлена.");
+            }
+            else
+            {
+                req.setAttribute("inf", "Ошибка обновления!");
             }
         }
         if(delete != null)

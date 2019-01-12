@@ -106,22 +106,22 @@ public class NotesDAOImpl implements NotesDAO {
 
     @Override
     public boolean update(Note note) {
-        /*String query = "UPDATE `departments` SET `name` = ?, `Description` = ? WHERE `departments`.`id` = ?";
+        String query = "UPDATE `notes` SET `title` = ?, `creation_date` = ?, `text` = ?, `author_id` = ? WHERE `notes`.`id` = ?";
         try {
             Connection con = dataSource.getConnection();
             PreparedStatement statement = con.prepareStatement(query);
-            statement.setString(1, department.getName());
-            statement.setString(2, department.getDescription());
-            statement.setInt(3, department.getId());
+
+            statement.setString(1, note.getTitle());
+            statement.setString(2, note.getCreationDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            statement.setString(3, note.getText());
+            statement.setString(4, String.valueOf(note.getOwner().getId()));
+            statement.setInt(5, note.getId());
             statement.executeUpdate();
             con.close();
-            EmployeesDAOimpl employeesDAOimpl = new EmployeesDAOimpl();
-            for (Employee employee : department.getEmployees()) {
-                employeesDAOimpl.saveOrUpdate(employee);
-            }
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
-        }*/
+        }
         return false;
     }
 
