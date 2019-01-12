@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
+import java.util.LinkedList;
 
 public class NotesDAOImpl implements NotesDAO {
     private static final String JNDI_NAME = "java:comp/env/jdbc/notes";
@@ -147,20 +148,21 @@ public class NotesDAOImpl implements NotesDAO {
 
     @Override
     public Collection<Note> findByTitle(String title) {
-        /*String query = "SELECT id FROM `departments` WHERE departments.name = ?";
-        LinkedList<Department> found = new LinkedList<>();
+        String query = "SELECT id FROM `notes` WHERE notes.title = ?";
+        LinkedList<Note> found = new LinkedList<>();
         try {
             Connection con = dataSource.getConnection();
             PreparedStatement statement = con.prepareStatement(query);
-            statement.setString(1, name);
+            statement.setString(1, title);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 found.add(findByID(rs.getInt("id")));
             }
             con.close();
+            return found;
         } catch (SQLException e) {
             e.printStackTrace();
-        }*/
+        }
         return null;
     }
 

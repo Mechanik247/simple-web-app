@@ -13,15 +13,16 @@
 </head>
 <body>
 <section>
-	<jsp:useBean id="listNotes" type="java.util.ArrayList" scope="session" />
+	<jsp:useBean id="notes" type="java.util.Collection" scope="request" />
     <h3>Notes info</h3>
-		<c:forEach items="${listNotes}" var="note">
+		<c:forEach items="${notes}" var="note">
 			<tr>      
-				<td>${note.title}</td>
-				<td>${note.text}</td>
-			</tr>
+				<td>Note: </td>
+				<td>ID: ${note.id} | </td>
+				<td>Title: ${note.title} |</td>
+				<td>Text: ${note.text}</td>
+			</tr><br>
 		</c:forEach>
-        <td><a href="notes?action=update">Update</a></td>
     </tr>
 </section>
 </body>

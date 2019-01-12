@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -36,12 +37,14 @@ public class Servlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //System.out.println("Enter doGet");
         Note note;
+        Collection<Note> notes;
         NotesDAOImpl dao = new NotesDAOImpl();
 
         String insert = req.getParameter("insert");
         String delete = req.getParameter("delete");
         String update = req.getParameter("update");
         String findByID = req.getParameter("findByID");
+        String findByTitle = req.getParameter("findByTitle");
 
         String id = req.getParameter("id");
         String title = req.getParameter("title");
@@ -50,8 +53,7 @@ public class Servlet extends HttpServlet {
         String author_id = req.getParameter("author_id");
 
 
-        if(insert != null)
-        {
+        if (insert != null) {
             note = new Note();
             note.setId(Integer.parseInt(id));
             note.setTitle(title);
@@ -60,16 +62,13 @@ public class Servlet extends HttpServlet {
             User owner = new User();
             owner.setId(Integer.parseInt(author_id));
             note.setOwner(owner);
-            if(dao.insert(note) == 1) {
+            if (dao.insert(note) == 1) {
                 req.setAttribute("inf", "Запись добавлена.");
-            }
-            else
-            {
+            } else {
                 req.setAttribute("inf", "Ошибка добавления!");
             }
         }
-        if(update != null)
-        {
+        if (update != null) {
             note = new Note();
             note.setId(Integer.parseInt(id));
             note.setTitle(title);
@@ -78,128 +77,33 @@ public class Servlet extends HttpServlet {
             User owner = new User();
             owner.setId(Integer.parseInt(author_id));
             note.setOwner(owner);
-            if(dao.update(note)) {
+            if (dao.update(note)) {
                 req.setAttribute("inf", "Запись обновлена.");
-            }
-            else
-            {
+            } else {
                 req.setAttribute("inf", "Ошибка обновления!");
             }
         }
-        if(delete != null)
-        {
-            if(dao.delete(Integer.parseInt(id))) {
+        if (delete != null) {
+            if (dao.delete(Integer.parseInt(id))) {
                 req.setAttribute("inf", "Запись удалена.");
-            }
-            else
-            {
+            } else {
                 req.setAttribute("inf", "Ошибка удаления!");
             }
         }
-        if(findByID != null) {
+        if (findByID != null) {
 
             note = dao.findByID(Integer.parseInt(id));
             req.setAttribute("id", note.getId());
             req.setAttribute("noteName", note.getTitle());
             req.setAttribute("noteText", note.getText());
         }
-            req.getRequestDispatcher("/note.jsp").forward(req, resp);
-    }
-        /*resp.setContentType("text/html");
-        PrintWriter pw = resp.getWriter();
-        pw.println("<html>");
-        pw.println("<head><title>Hello World</title></title>");
-        pw.println("<body>");
-        pw.println("<h1>Hello World</h1>");
-        pw.println("</body></html>");
-        //PrintWriter printWriter = resp.getWriter();
+        if (findByTitle != null) {
 
-        String id              = req.getParameter("id");
-        String firstName       = req.getParameter("firstName");
-        String secondName      = req.getParameter("secondName");
-        String hireDateMinimum = req.getParameter("hireDateMinimum");
-        String hireDateMaximum = req.getParameter("hireDateMaximum");
-        String jobtitle        = req.getParameter("jobtitle");
-
-        pw.println("<h1>Welcome, you request:</h1>");
-        pw.println("id = "              + id              + "<br>");
-        pw.println("firstName = "       + firstName       + "<br>");
-        pw.println("secondName = "      + secondName      + "<br>");
-        pw.println("hireDateMinimum = " + hireDateMinimum + "<br>");
-        pw.println("hireDateMaximum = " + hireDateMaximum + "<br>");
-        pw.println("jobtitle = "        + jobtitle        + "<br>");*/
-
-        /*DepartmentsDaoImpl departmentsDaoImpl = DepartmentsDaoFactory.instance();
-        ArrayList<Department> departments =
-                (ArrayList<Department>)departmentsDaoImpl.getAll();
-
-        JsonGroup jsonEmployees = new JsonGroup();
-        JsonGroup jsonEmployee = null;
-        JsonGroup jsonDepartment = null;
-        for(Department depar : departments) {
-            for(Employee empl : depar.getEmployees()) {
-
-                *//* ======== start filter ========= *//*
-                LocalDate localDate = null;
-
-                if (id != null) {
-                    if ( ! id.equals(String.valueOf(empl.getId()))) continue;
-                } else {
-                    if ( (firstName != null)
-                            && ( ! firstName.equals(empl.getFirstName())))
-                        continue;
-                    if ( (secondName != null)
-                            && ( ! secondName.equals(empl.getSecondName())))
-                        continue;
-                    if ( (jobtitle != null)
-                            && ( ! jobtitle.equals(empl.getJobtitle())))
-                        continue;
-                    if (hireDateMinimum != null) {
-                        localDate = LocalDate.parse(hireDateMinimum);
-                        if (localDate.isAfter(empl.getHireDate()))
-                            continue;
-                    }
-                    if (hireDateMaximum != null) {
-                        localDate = LocalDate.parse(hireDateMaximum);
-                        if (localDate.isBefore(empl.getHireDate()))
-                            continue;
-                    }
-                }
-                *//* -------- end filter --------- *//*
-
-                jsonEmployee = new JsonGroup();
-
-                jsonEmployee.addElement(
-                        new JsonElement("id", String.valueOf(empl.getId())));
-                jsonEmployee.addElement(
-                        new JsonElement("firstName", empl.getFirstName()));
-                jsonEmployee.addElement(
-                        new JsonElement("secondName", empl.getSecondName()));
-                jsonEmployee.addElement(
-                        new JsonElement("birthDate", empl.getBirthDate().toString()));
-                jsonEmployee.addElement(
-                        new JsonElement("hireDate", empl.getHireDate().toString()));
-                jsonEmployee.addElement(
-                        new JsonElement("jobTitle", empl.getJobtitle()));
-                jsonEmployee.addElement(
-                        new JsonElement("salary", String.valueOf(empl.getSalary())));
-
-                jsonDepartment = new JsonGroup("department");
-                jsonDepartment.addElement(
-                        new JsonElement("id", String.valueOf(depar.getId())));
-                jsonDepartment.addElement(
-                        new JsonElement("name", depar.getName()));
-                jsonDepartment.addElement(
-                        new JsonElement("description", depar.getDescription()));
-
-                jsonEmployee.addGroup(jsonDepartment);
-                jsonEmployees.addGroup(jsonEmployee);
-            }
-        }*/
-
-        /*pw.println("<h1>You answer:</h1><br>");
-        pw.println("<textarea>");
-        //printWriter.println(jsonEmployees.getJsonString());
-        pw.println("for example");
-        pw.println("</textarea>");*/
+            notes = dao.findByTitle(title);
+            req.setAttribute("notes", notes);
+            req.getRequestDispatcher("/notes.jsp").forward(req, resp);
         }
+        req.getRequestDispatcher("/note.jsp").forward(req, resp);
+    }
+
+}
