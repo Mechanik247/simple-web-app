@@ -22,11 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-/**
- * This servlet class demonstrates how to access a JNDI DataSource that
- * represents a JDBC connection.
- * @author www.codejava.net
- */
 public class Servlet extends HttpServlet {
 
     public void init(ServletConfig config) throws ServletException {
