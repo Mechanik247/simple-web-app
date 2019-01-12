@@ -45,11 +45,14 @@ public class Servlet extends HttpServlet {
         String update = req.getParameter("update");
         String findByID = req.getParameter("findByID");
         String findByTitle = req.getParameter("findByTitle");
+        String findByTextFragment = req.getParameter("findByTextFragment");
+        String saveOrUpdate = req.getParameter("saveOrUpdate");
 
         String id = req.getParameter("id");
         String title = req.getParameter("title");
         String cDate = req.getParameter("cDate");
         String text = req.getParameter("text");
+        String fragment = req.getParameter("fragment");
         String author_id = req.getParameter("author_id");
 
 
@@ -83,6 +86,21 @@ public class Servlet extends HttpServlet {
                 req.setAttribute("inf", "Ошибка обновления!");
             }
         }
+        if (saveOrUpdate != null) {
+            note = new Note();
+            note.setId(Integer.parseInt(id));
+            note.setTitle(title);
+            note.setCreationDate(LocalDate.parse(cDate));
+            note.setText(text);
+            User owner = new User();
+            owner.setId(Integer.parseInt(author_id));
+            note.setOwner(owner);
+            if (dao.saveOrUpdate(note)) {
+                req.setAttribute("inf", "Запись сохранена.");
+            } else {
+                req.setAttribute("inf", "Ошибка сохранения!");
+            }
+        }
         if (delete != null) {
             if (dao.delete(Integer.parseInt(id))) {
                 req.setAttribute("inf", "Запись удалена.");
@@ -100,6 +118,12 @@ public class Servlet extends HttpServlet {
         if (findByTitle != null) {
 
             notes = dao.findByTitle(title);
+            req.setAttribute("notes", notes);
+            req.getRequestDispatcher("/notes.jsp").forward(req, resp);
+        }
+        if (findByTextFragment != null) {
+
+            notes = dao.findByTextFragment(fragment);
             req.setAttribute("notes", notes);
             req.getRequestDispatcher("/notes.jsp").forward(req, resp);
         }

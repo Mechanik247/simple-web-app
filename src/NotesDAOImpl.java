@@ -30,18 +30,6 @@ public class NotesDAOImpl implements NotesDAO {
         } catch (NamingException e) {
             e.printStackTrace();
         }
-
-
-        /*try {
-
-            Context initContext = new InitialContext();
-            Context envContext  = (Context)initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource)envContext.lookup("jdbc/notes");
-            dataSource = ds.unwrap(MysqlDataSource.class);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
     }
 
     @Override
@@ -128,22 +116,23 @@ public class NotesDAOImpl implements NotesDAO {
 
     @Override
     public boolean saveOrUpdate(Note note) {
-        /*String query = "SELECT id FROM `departments` WHERE id=?";
+        String query = "SELECT id FROM `notes` WHERE id=?";
         try {
             Connection con = dataSource.getConnection();
             PreparedStatement statement = con.prepareStatement(query);
-            statement.setInt(1, department.getId());
+            statement.setInt(1, note.getId());
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
-                update(department);
+                update(note);
             } else {
-                insert(department);
+                insert(note);
             }
             con.close();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
-        }*/
-        return true;
+        }
+        return false;
     }
 
     @Override
@@ -168,20 +157,22 @@ public class NotesDAOImpl implements NotesDAO {
 
     @Override
     public Collection<Note> findByTextFragment(String fragment) {
-        /*String query = "SELECT id FROM `departments` WHERE departments.name = ?";
-        LinkedList<Department> found = new LinkedList<>();
+        String query = "SELECT id FROM `notes` WHERE notes.text LIKE ?";
+        LinkedList<Note> found = new LinkedList<>();
+        fragment = "%" + fragment + "%";
         try {
             Connection con = dataSource.getConnection();
             PreparedStatement statement = con.prepareStatement(query);
-            statement.setString(1, name);
+            statement.setString(1, fragment);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 found.add(findByID(rs.getInt("id")));
             }
             con.close();
+            return found;
         } catch (SQLException e) {
             e.printStackTrace();
-        }*/
+        }
         return null;
     }
 }
