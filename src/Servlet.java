@@ -36,10 +36,32 @@ public class Servlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //System.out.println("Enter doGet");
         Note note;
+        NotesDAOImpl dao = new NotesDAOImpl();
+
+        String insert = req.getParameter("insert");
+        String findByID = req.getParameter("findByID");
 
         String id = req.getParameter("id");
-        if(id != null && !id.equals("")) {
-            NotesDAOImpl dao = new NotesDAOImpl();
+        String title = req.getParameter("title");
+        String cDate = req.getParameter("cDate");
+        String text = req.getParameter("text");
+        String author_id = req.getParameter("author_id");
+
+
+        if(insert != null)
+        {
+            note = new Note();
+            note.setId(Integer.parseInt(id));
+            note.setTitle(title);
+            note.setCreationDate(LocalDate.parse(cDate));
+            note.setText(text);
+            User owner = new User();
+            owner.setId(Integer.parseInt(author_id));
+            note.setOwner(owner);
+            dao.insert(note);
+        }
+        if(findByID != null) {
+
             note = dao.findByID(Integer.parseInt(id));
             req.setAttribute("id", note.getId());
             req.setAttribute("noteName", note.getTitle());

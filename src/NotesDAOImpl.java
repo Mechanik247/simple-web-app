@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 
 public class NotesDAOImpl implements NotesDAO {
@@ -44,24 +45,21 @@ public class NotesDAOImpl implements NotesDAO {
 
     @Override
     public int insert(Note note) {
-        /*String query = "INSERT INTO `departments` (`id`, `name`, `Description`) VALUES (?, ?, ?)";
+        String query = "INSERT INTO `notes` (`id`, `title`, `creation_date`, `text`, `author_id`) VALUES (?, ?, ?, ?, ?);";
         try {
             Connection con = dataSource.getConnection();
             PreparedStatement statement = con.prepareStatement(query);
-            statement.setInt(1, department.getId());
-            statement.setString(2, department.getName());
-            statement.setString(3, department.getDescription());
+            statement.setInt(1, note.getId());
+            statement.setString(2, note.getTitle());
+            statement.setString(3, note.getCreationDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            statement.setString(4, note.getText());
+            statement.setString(5, String.valueOf(note.getOwner().getId()));
             statement.executeUpdate();
             con.close();
-            EmployeesDAOimpl employeesDAOimpl = new EmployeesDAOimpl();
-            for (Employee employee : department.getEmployees()) {
-                employeesDAOimpl.saveOrUpdate(employee);
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return department.getId();*/
-        return 0;
+        return 1;
     }
 
     @Override

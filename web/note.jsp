@@ -11,12 +11,12 @@
 <head>
     <title>Notes</title>
 </head>
-<body>
-<section>
-    <h3>Notes info</h3>
-    <tr>
-        <td>ID: ${id} | Name: ${noteName} | Text: ${noteText}</td>
-    </tr>
-</section>
-</body>
+	<body>
+		<section>
+			<h3>Notes info</h3>
+			<tr>
+				<td>ID: ${id} | Name: ${noteName} | Text: ${noteText}</td>
+			</tr>
+		</section>
+	</body>
 </html>
