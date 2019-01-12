@@ -62,92 +62,128 @@ public class Servlet extends HttpServlet {
 
         if (insert != null) {
             if(insert.equals("note")) {
-                note = new Note();
-                note.setId(Integer.parseInt(id));
-                note.setTitle(title);
-                note.setCreationDate(LocalDate.parse(cDate));
-                note.setText(text);
-                User owner = new User();
-                owner.setId(Integer.parseInt(author_id));
-                note.setOwner(owner);
-                if (notesDAO.insert(note) == 1) {
-                    req.setAttribute("inf", "Запись добавлена.");
-                } else {
-                    req.setAttribute("inf", "Ошибка добавления!");
+                if(id != null && title != null && cDate != null && text != null && author_id != null) {
+                    note = new Note();
+                    note.setId(Integer.parseInt(id));
+                    note.setTitle(title);
+                    note.setCreationDate(LocalDate.parse(cDate));
+                    note.setText(text);
+                    User owner = new User();
+                    owner.setId(Integer.parseInt(author_id));
+                    note.setOwner(owner);
+                    if (notesDAO.insert(note) == 1) {
+                        req.setAttribute("inf", "Запись добавлена.");
+                    } else {
+                        req.setAttribute("inf", "Ошибка добавления!");
+                    }
+                }
+                else
+                {
+                    req.setAttribute("inf", "Ошибка! Введены не все параметры!");
                 }
             }
             else if(insert.equals("user")) {
-                user = new User();
-                user.setId(Integer.parseInt(id));
-                user.setName(name);
-                user.setEncrypted_password(pass);
-                user.setEMail(eMail);
-                if (usersDAO.insert(user) == 1) {
-                    req.setAttribute("inf", "Запись добавлена.");
-                } else {
-                    req.setAttribute("inf", "Ошибка добавления!");
+                if(id != null && name != null && pass != null && eMail != null) {
+                    user = new User();
+                    user.setId(Integer.parseInt(id));
+                    user.setName(name);
+                    user.setEncrypted_password(pass);
+                    user.setEMail(eMail);
+                    if (usersDAO.insert(user) == 1) {
+                        req.setAttribute("inf", "Запись добавлена.");
+                    } else {
+                        req.setAttribute("inf", "Ошибка добавления!");
+                    }
+                }
+                else
+                {
+                    req.setAttribute("inf", "Ошибка! Введены не все параметры!");
                 }
             }
             req.getRequestDispatcher("/inf.jsp").forward(req, resp);
         }
         else if (update != null) {
             if(update.equals("note")) {
-                note = new Note();
-                note.setId(Integer.parseInt(id));
-                note.setTitle(title);
-                note.setCreationDate(LocalDate.parse(cDate));
-                note.setText(text);
-                User owner = new User();
-                owner.setId(Integer.parseInt(author_id));
-                note.setOwner(owner);
-                if (notesDAO.update(note)) {
-                    req.setAttribute("inf", "Запись обновлена.");
-                } else {
-                    req.setAttribute("inf", "Ошибка обновления!");
+                if(id != null && title != null && cDate != null && text != null && author_id != null) {
+                    note = new Note();
+                    note.setId(Integer.parseInt(id));
+                    note.setTitle(title);
+                    note.setCreationDate(LocalDate.parse(cDate));
+                    note.setText(text);
+                    User owner = new User();
+                    owner.setId(Integer.parseInt(author_id));
+                    note.setOwner(owner);
+                    if (notesDAO.update(note)) {
+                        req.setAttribute("inf", "Запись обновлена.");
+                    } else {
+                        req.setAttribute("inf", "Ошибка обновления!");
+                    }
+                }
+                else
+                {
+                    req.setAttribute("inf", "Ошибка! Введены не все параметры!");
                 }
             }
             else if(update.equals("user"))
             {
-                user = new User();
-                user.setId(Integer.parseInt(id));
-                user.setName(name);
-                user.setEncrypted_password(pass);
-                user.setEMail(eMail);
-                if (usersDAO.update(user)) {
-                    req.setAttribute("inf", "Запись обновлена.");
-                } else {
-                    req.setAttribute("inf", "Ошибка обновления!");
+                if(id != null && name != null && pass != null && eMail != null) {
+                    user = new User();
+                    user.setId(Integer.parseInt(id));
+                    user.setName(name);
+                    user.setEncrypted_password(pass);
+                    user.setEMail(eMail);
+                    if (usersDAO.update(user)) {
+                        req.setAttribute("inf", "Запись обновлена.");
+                    } else {
+                        req.setAttribute("inf", "Ошибка обновления!");
+                    }
+                }
+                else
+                {
+                    req.setAttribute("inf", "Ошибка! Введены не все параметры!");
                 }
             }
             req.getRequestDispatcher("/inf.jsp").forward(req, resp);
         }
         else if (saveOrUpdate != null) {
             if(saveOrUpdate.equals("note")) {
-                note = new Note();
-                note.setId(Integer.parseInt(id));
-                note.setTitle(title);
-                note.setCreationDate(LocalDate.parse(cDate));
-                note.setText(text);
-                User owner = new User();
-                owner.setId(Integer.parseInt(author_id));
-                note.setOwner(owner);
-                if (notesDAO.saveOrUpdate(note)) {
-                    req.setAttribute("inf", "Запись сохранена.");
-                } else {
-                    req.setAttribute("inf", "Ошибка сохранения!");
+                if(id != null && title != null && cDate != null && text != null && author_id != null) {
+                    note = new Note();
+                    note.setId(Integer.parseInt(id));
+                    note.setTitle(title);
+                    note.setCreationDate(LocalDate.parse(cDate));
+                    note.setText(text);
+                    User owner = new User();
+                    owner.setId(Integer.parseInt(author_id));
+                    note.setOwner(owner);
+                    if (notesDAO.saveOrUpdate(note)) {
+                        req.setAttribute("inf", "Запись сохранена.");
+                    } else {
+                        req.setAttribute("inf", "Ошибка сохранения!");
+                    }
+                }
+                else
+                {
+                    req.setAttribute("inf", "Ошибка! Введены не все параметры!");
                 }
             }
             else if(saveOrUpdate.equals("user"))
             {
-                user = new User();
-                user.setId(Integer.parseInt(id));
-                user.setName(name);
-                user.setEncrypted_password(pass);
-                user.setEMail(eMail);
-                if (usersDAO.saveOrUpdate(user)) {
-                    req.setAttribute("inf", "Запись сохранена.");
-                } else {
-                    req.setAttribute("inf", "Ошибка сохранения!");
+                if(id != null && name != null && pass != null && eMail != null) {
+                    user = new User();
+                    user.setId(Integer.parseInt(id));
+                    user.setName(name);
+                    user.setEncrypted_password(pass);
+                    user.setEMail(eMail);
+                    if (usersDAO.saveOrUpdate(user)) {
+                        req.setAttribute("inf", "Запись сохранена.");
+                    } else {
+                        req.setAttribute("inf", "Ошибка сохранения!");
+                    }
+                }
+                else
+                {
+                    req.setAttribute("inf", "Ошибка! Введены не все параметры!");
                 }
             }
             req.getRequestDispatcher("/inf.jsp").forward(req, resp);
