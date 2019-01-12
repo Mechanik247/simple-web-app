@@ -16,6 +16,7 @@
 			<h3>Notes info</h3>
 			<tr>
 				<td>ID: ${id} | Name: ${noteName} | Text: ${noteText}</td>
+				<td>Information: ${inf}</td>
 			</tr>
 		</section>
 	</body>

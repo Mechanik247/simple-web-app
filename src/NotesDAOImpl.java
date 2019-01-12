@@ -56,29 +56,27 @@ public class NotesDAOImpl implements NotesDAO {
             statement.setString(5, String.valueOf(note.getOwner().getId()));
             statement.executeUpdate();
             con.close();
+            return 1;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 1;
+        return 0;
     }
 
     @Override
-    public boolean delete(Note note) {
-        /*String query = "DELETE FROM `departments` WHERE `departments`.`id` = ?";
+    public boolean delete(int id) {
+        String query = "DELETE FROM `notes` WHERE `notes`.`id` = ?";
         try {
             Connection con = dataSource.getConnection();
             PreparedStatement statement = con.prepareStatement(query);
-            statement.setInt(1, department.getId());
+            statement.setInt(1, id);
             statement.executeUpdate();
             con.close();
-            EmployeesDAOimpl employeesDAOimpl = new EmployeesDAOimpl();
-            for (Employee employee : department.getEmployees()) {
-                employeesDAOimpl.delete(employee);
-            }
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
-        }*/
-        return true;
+        }
+        return false;
     }
 
     @Override

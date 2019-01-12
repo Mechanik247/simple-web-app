@@ -39,6 +39,7 @@ public class Servlet extends HttpServlet {
         NotesDAOImpl dao = new NotesDAOImpl();
 
         String insert = req.getParameter("insert");
+        String delete = req.getParameter("delete");
         String findByID = req.getParameter("findByID");
 
         String id = req.getParameter("id");
@@ -58,7 +59,23 @@ public class Servlet extends HttpServlet {
             User owner = new User();
             owner.setId(Integer.parseInt(author_id));
             note.setOwner(owner);
-            dao.insert(note);
+            if(dao.insert(note) == 1) {
+                req.setAttribute("inf", "Запись добавлена.");
+            }
+            else
+            {
+                req.setAttribute("inf", "Ошибка добавления!");
+            }
+        }
+        if(delete != null)
+        {
+            if(dao.delete(Integer.parseInt(id))) {
+                req.setAttribute("inf", "Запись удалена.");
+            }
+            else
+            {
+                req.setAttribute("inf", "Ошибка удаления!");
+            }
         }
         if(findByID != null) {
 
